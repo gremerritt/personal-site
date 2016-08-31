@@ -4,6 +4,7 @@ title: Contact
 permalink: /contact/
 ---
 
-Contact content goes here.
+Contact me at:
 
-My e-mail is [gremerritt@gmail.com](mailto:gremerritt@gmail.com).
+  - [gremerritt@gmail.com](mailto:gremerritt@gmail.com)
+  - [LinkedIn](https://www.linkedin.com/in/gremerritt)
