@@ -30,3 +30,5 @@ sass:
 include: ['_pages']
 kramdown:
   input: GFM
+gems: ['kramdown']
+exclude: ['config.ru', 'Gemfile', 'Gemfile.lock', 'vendor', 'Procfile', 'Rakefile']

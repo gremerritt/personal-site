@@ -1,5 +1,5 @@
 source "https://rubygems.org"
-ruby RUBY_VERSION
+ruby "2.3.1"
 
 # Hello! This is where you manage which Jekyll version is used to run.
 # When you want to use a different version, change it below, save the
@@ -22,3 +22,7 @@ gem "minima"
 # group :jekyll_plugins do
 #   gem "jekyll-github-metadata", "~> 1.0"
 # end
+gem 'kramdown'
+gem 'rack-jekyll'
+gem 'rake'
+gem 'puma'
