@@ -27,7 +27,7 @@ markdown: kramdown
 theme: minima
 sass:
   sass_dir: _sass
-include: ['_pages', '_images', '_posts']
+include: ['_pages', '_images']
 kramdown:
   input: GFM
 gems: ['kramdown']
