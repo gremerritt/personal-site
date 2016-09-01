@@ -1,4 +1,4 @@
 require 'rack/jekyll'
 require 'yaml'
-Dir.chdir(File.expand_path("web"))
+puts `ls -R ./`
 run Rack::Jekyll.new
