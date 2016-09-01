@@ -1,8 +1,14 @@
+html {
+	background-image: url($edges);
+}
 body {
 	margin: 0;
 	color: $font-color;
+	background-color: $header;
+	width: 70%;
+	height: 100%;
+	margin: auto;
 	font-family: $font-style;
-	background-image: url("../_images/fabric.png");
 	font-size: 1.1em;
 	line-height: 1.6;
 	-webkit-font-smoothing: antialiased;
@@ -39,16 +45,15 @@ a:hover {
 }
 header {
 	background: $header;
-	background-image: url("../_images/photo.png");
+	background-image: url($me);
 	background-size: contain;
 	background-repeat:no-repeat;
-	background-position: 86% 0%;
+	background-position: 50% 0%;
 	padding: 0px 15px;
-	text-align: left;
-	margin: 50px 0 0;
+	margin: 10px 0 0;
 	height: 50vh;
 	display: flex;
-	justify-content: center;
+	justify-content: left;
 	align-items: center;
 }
 main {
@@ -70,11 +75,11 @@ aside {
 	position: fixed;
 	top: 0;
 	left: 0;
-	background-image: url("../_images/fabric.png");;
+	background-image: url($edges);;
 	width: 100%;
 	z-index: 2;
-	border-bottom: 1px solid lighten($light, 30%);
-	box-shadow: 0px 1px 1px RGBA(4, 25, 54, .1);
+	border-bottom: 0px solid lighten($light, 30%);
+	box-shadow: 0px 0px 0px RGBA(4, 25, 54, .1);
 	nav {
 		float: left;
 		max-width: 800px;
@@ -92,11 +97,11 @@ aside {
 					padding: 15px;
 					font-family: 'Ubuntu', sans-serif;
 					line-height: 20px;
-					margin-bottom: -1px;
+					margin-bottom: 0px;
 					box-shadow: 0;
 					&:hover,
 					&:active {
-						background-image: url("../_images/food.png");
+						background-image: url($tabs);
 						text-decoration: none;
 						color: $main;
 					}
@@ -113,8 +118,25 @@ aside {
 footer {
 	text-align: center;
 	font-size: x-small;
-	padding: 40px;
+	padding: 10px;
 }
 p.about {
+	text-align: center;
+}
+div.social {
+	text-align: center;
+	margin-top: 30px;
+}
+a.social {
+	margin-left: 15px;
+	margin-right: 15px;
+}
+img.social{
+	height: 50px;
+	width: 50px;
+}
+h1.title {
+	margin: 50px 0 0;
+	padding-top: 15px;
 	text-align: center;
 }

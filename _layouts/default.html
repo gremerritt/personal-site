@@ -3,13 +3,20 @@
 {% include head.html %}
 
 <body>
-	{% include header.html %}
-	<main>
-		<article>
-			{{ content }}
-		</article>
-		{% include footer.html %}
-	</main>
+		<h1 class="title">{{ site.title }}</h1>
+		{% include header.html %}
+		<main>
+			<div class="social">
+				<a href="{{ site.github }}" class="social"><img src="/_images/github.png" class="social"></a>
+				<a href="{{ site.linkedin }}" class="social"><img src="/_images/linkedin.png" class="social"></a>
+				<a href="mailto:{{ site.email }}" class="social"><img src="/_images/email.png" class="social"></a>
+				<a href="{{ site.twitter }}" class="social"><img src="/_images/twitter.png" class="social"></a>
+			</div>
+			<article>
+				{{ content }}
+			</article>
+			{% include footer.html %}
+		</main>
 </body>
 
 </html>
