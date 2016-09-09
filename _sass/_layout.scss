@@ -17,7 +17,7 @@ h1,
 h2,
 h3 {
 	font-weight: 600;
-	color: $heading-font-color;
+	color: $main;
 	font-family: $heading-font;
 	line-height: 1.5;
 }
@@ -35,12 +35,12 @@ h2 {
 }
 a,
 a:visited {
-	color: $link-color;
+	color: $main;
 	text-decoration: underline;
 	font-weight: bold;
 }
 a:hover {
-	color: $link-hover-color;
+	color: $main;
 	text-decoration: underline;
 }
 header {
@@ -101,8 +101,8 @@ aside {
 					box-shadow: 0;
 					&:hover,
 					&:active {
-						background-image: url($tabs);
-						text-decoration: none;
+						// background-image: url("../_images/stardust.png");
+						text-decoration: underline;
 						color: $main;
 					}
 				}
@@ -119,17 +119,22 @@ footer {
 	text-align: center;
 	font-size: x-small;
 	padding: 10px;
+	p {
+		a:visited {
+			color: $main;
+		}
+	}
 }
 p.about {
-	text-align: center;
+	text-align: justify;
 }
 div.social {
 	text-align: center;
 	margin-top: 30px;
 }
 a.social {
-	margin-left: 15px;
-	margin-right: 15px;
+	margin-left: 10px;
+	margin-right: 10px;
 }
 img.social{
 	height: 38px;
