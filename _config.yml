@@ -18,7 +18,7 @@ email: gremerritt@gmail.com
 description: > # this means to ignore newlines until "baseurl:"
   Greg Merritt. Computer Engineer.
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "http://gremerritt.herokuapp.com" # the base hostname & protocol for your site
+url: "http://gregmerritt.xyz" # the base hostname & protocol for your site
 # twitter_username: jekyllrb
 github: "https://github.com/gremerritt"
 linkedin: "https://linkedin.com/in/gremerritt"
