@@ -46,12 +46,12 @@ a:hover {
 header {
 	background: $header;
 	background-image: url($me);
-	background-size: 28%;
+	background-size: contain;
 	background-repeat:no-repeat;
 	background-position: 50% 0%;
 	padding: 0px 15px;
 	margin: 10px 0 0;
-	height: 35vh;
+	height: 200px;
 	display: flex;
 	justify-content: left;
 	align-items: center;
@@ -137,8 +137,8 @@ a.social {
 	margin-right: 10px;
 }
 img.social{
-	height: 38px;
-	width: 38px;
+	height: 32px;
+	width: 32px;
 }
 h1.title {
 	margin: 50px 0 0;
