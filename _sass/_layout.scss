@@ -125,16 +125,18 @@ footer {
 		}
 	}
 }
-p.about {
-	text-align: justify;
+p.smaller {
+	text-size: x-small;
 }
 div.social {
 	text-align: center;
 	margin-top: 30px;
 }
 a.social {
-	margin-left: 10px;
-	margin-right: 10px;
+	text-decoration: none;
+	font-size: small;
+	margin-left: 6px;
+	margin-right: 6px;
 }
 img.social{
 	height: 32px;
