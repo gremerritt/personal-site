@@ -33,7 +33,6 @@ Then to change the background, I looped over the pixels of the picture and if th
 int thresh = 230;
   for (int i = 0; i < image_gray.rows; i++){
       for (int j = 0; j < image_gray.cols; j++){
-          //apply condition here
           if (image_gray.at<uchar>(i, j) > thresh){
               image_gray.at<uchar>(i, j) = ((i + j) / 2) < 256 ? ((i+j)/2) : 0;
           }
@@ -65,3 +64,15 @@ threshold(image_gray, image_thresh, 100, 200, THRESH_BINARY);
 In the code, the 100 is the threshold value. Any pixel with a value greater than the threshold value will be replaced with the `maxval` parameter (200 in the code above), and any pixel with a value less than or equal to the threshold value will be zero. This produced:
 
 ![threshold.jpg](../../../../_images/cs585/greg_thresh.bmp)
+
+Finally, I saved the three altered images using the `imwrite` function in OpenCV. For example, to save the `greg_blur` image:
+{% highlight c++ %}
+imwrite("greg_blur.bmp", image_blur);
+{% endhighlight %}
+
+I also displayed to images to the user, using the `imshow` function. This was followed by a call to `waitKey` which halts program execution until the user presses a key, so that the images stay up on the screen. This looks like:
+{% highlight c++ %}
+namedWindow("Blur", WINDOW_AUTOSIZE);
+imshow("Blur", image_blur);
+waitKey(0);
+{% endhighlight %}
