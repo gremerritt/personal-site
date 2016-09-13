@@ -1,0 +1,67 @@
+---
+layout: post
+title:  "Homework 1"
+date:   2016-09-13 14:44:00 -0400
+categories: cs585
+---
+The goal of the first assignment was to become familiar with OpenCV and to use it to do some simple read/write and manipulation of an image.
+
+The original image I used was a picture of my own face:
+
+![greg.jpg](../../../../_images/cs585/greg.jpg)
+
+To read the image, I used the following:
+{% highlight c++ %}
+Mat image;
+image = imread("greg.jpg", IMREAD_COLOR);
+{% endhighlight %}
+
+I then did three different alterations to the picture.
+  1. Conversion to grayscale / changing the background-color
+  2. Blurring
+  3. Thresholding
+
+
+## Grayscale + Background
+For the conversion to grayscale, I simply used the `cvtColor` function from OpenCV. This looked like:
+{% highlight c++ %}
+cvtColor(image, image_gray, CV_BGR2GRAY);
+{% endhighlight %}
+
+Then to change the background, I looped over the pixels of the picture and if the pixel value was "white" (which I assumed was any pixel that has a value of >230), I would change that pixel value to the average of the row and column values. This produced a gradient of color from the upper left to the lower right corners of the image.
+{% highlight c++ %}
+int thresh = 230;
+  for (int i = 0; i < image_gray.rows; i++){
+      for (int j = 0; j < image_gray.cols; j++){
+          //apply condition here
+          if (image_gray.at<uchar>(i, j) > thresh){
+              image_gray.at<uchar>(i, j) = ((i + j) / 2) < 256 ? ((i+j)/2) : 0;
+          }
+      }
+  }
+{% endhighlight %}
+This produced:
+
+![grayscale.jpg](../../../../_images/cs585/greg_gray.bmp)
+
+## Blurring
+
+To do the blurring, I used the `GaussianBlur` function from OpenCV. The code looked like:
+{% highlight c++ %}
+GaussianBlur(image, image_blur, Size(15, 15), 0, 0);
+{% endhighlight %}
+
+The last three parameters of the function determine how much blurring occurs to the image. This produced:
+
+![blur.jpg](../../../../_images/cs585/greg_blur.bmp)
+
+## Thresholding
+
+To do the thresholding, I used the `threshold` function from OpenCV. The code looked like:
+{% highlight c++ %}
+threshold(image_gray, image_thresh, 100, 200, THRESH_BINARY);
+{% endhighlight %}
+
+In the code, the 100 is the threshold value. Any pixel with a value greater than the threshold value will be replaced with the `maxval` parameter (200 in the code above), and any pixel with a value less than or equal to the threshold value will be zero. This produced:
+
+![threshold.jpg](../../../../_images/cs585/greg_thresh.bmp)

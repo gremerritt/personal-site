@@ -1,7 +1,0 @@
----
-layout: post
-title:  "Homework 1"
-date:   2016-09-13 14:44:00 -0400
-categories: cs585
----
-This is my writeup for HW1.
