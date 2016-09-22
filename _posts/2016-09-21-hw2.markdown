@@ -1,0 +1,52 @@
+---
+layout: post
+title:  "Homework 2"
+date:   2016-09-21 19:23:14 -0400
+categories: cs585
+---
+The goal of this programming assignment was to:
+  1. Read and display video frames from a webcam
+  2. Learn about tracking by template matching
+  3. Learn about analyzing properties of objects in an image
+  4. Create interesting and interactive graphical applications
+
+## Part 1
+
+#### Assignment
+Take an image of an object which you wish to track in a video. Then perform template matching to track that object in a video. Suppose the object you wish to track is a ball. Take an image of the ball, which will serve as your template. Then perform template matching to track the ball in a stream of images from a webcam, where you are holding and moving the ball. On every frame, draw a bounding box around where your template matching algorithm finds the object. Discuss the challenges of tracking an object using this approach. How does your algorithm account for changes in the scale and orientation of the object with respect to your template, or changes in illumination? Store some output frames that show successful and unsuccessful detection of the ball.
+
+#### Writeup
+I chose to track a tennis ball in my video. As a guide, I used the sample code on the `opencv` site about template matching ([here](http://docs.opencv.org/2.4/doc/tutorials/imgproc/histograms/template_matching/template_matching.html)).
+
+First, I took a picture of the tennis ball to use as my template:
+![template.jpg](../../../../_images/cs585/hw2/template.png)
+
+Below is a GIF of the object being tracked on my screen. Note that at the beginning of the recording the tennis ball is kept at a distance of about the same size as the template image. Under these conditions, the code does a good job of finding the object. However, as the image is brought further back so that it is smaller than the template, the code does not do a very good job tracking the object.
+![template_matching.png](../../../../_images/cs585/hw2/template_matching.gif)
+
+The program actually does a pretty good job of handling different lighting conditions. My guess is that this is because the ball has a very vibrant green/yellow color, and thus is reasonably east to identify across a variety of different lights.
+
+The template matching code works by checking at each pixel value in the image where the template would be able to sit on top (i.e. all pixels except the bottom and right side of the image.) At each pixel, a value is generated which determines how good of a match the template would be at that location. This is done with the `matchTemplate()` function. Then, we check the resulting image to find out where the darkest spot is (or lightest, depending on the exact template matching method used) using the `minMaxLoc()` method. The resulting image looks like:
+![template_result.png](../../../../_images/cs585/hw2/template_matching.gif)
+
+Once we know the most likely place for the template object in the frame, we just draw a bounding box at that location.
+
+## Part 2
+
+#### Assignment
+Design and implement algorithms that delineate hand shapes (such as making a fist, thumbs up, thumbs down, pointing with an index finger etc.) or gestures (such as waving with one or both hands, swinging, drawing something in the air etc.) and create a graphical display that responds to the recognition of the hand shapes or gestures. For your system, you could use some of the following computer vision techniques that were discussed in class:
+  - background differencing: `D(x,y,t) = |I(x,y,t)-I(x,y,0)|``
+  - frame-to-frame differencing: `D’(x,y,t) = |I(x,y,t)-I(x,y,t-1)|``
+  - motion energy templates (union of binary difference images over a window of time)
+  - skin-color detection (e.g., thresholding red and green pixel values)
+  - horizontal and vertical projections to find bounding boxes of ”movement blobs” or ”skin-color blobs”
+  - size, position, and orientation of ”movement blobs” or ”skin-color blobs”
+  - circularity of ”movement blobs” or ”skin-color blobs”
+  - tracking the position and orientation of moving objects
+
+In your report, create a confusion matrix (which will be discussed in class during the week of Sep 14) to illustrate how well your system can classify the hand shapes or gestures. You are also asked to create a graphical display that responds to the movements of the recognized gestures. The graphics should be tasteful and appropriate to the gestural movements. Along with the program, submit the following information about your graphics program:
+  - An overall description
+  - How the graphics respond to different hand shapes and/or gestures
+  - Interesting and fun aspects of the graphics display
+
+#### Writeup
