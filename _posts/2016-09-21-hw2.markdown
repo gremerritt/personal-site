@@ -98,7 +98,7 @@ I then copied the corresponding emoji image onto the frame and displayed it! An 
 
 ![hand_gestures.gif](../../../../_images/cs585/hw2/hand_gestures.gif)
 
-Below is a Confusion Matrix where the top row is the Truth (what gesture I was making) and the side is the Hypothesis (what the computer guessed). These numbers were found my checking each frame of the above GIF for correctness. While the computer is not entirely accurate, it _does_ to better than simply guessing!
+Below is a Confusion Matrix where the top row is the Truth (what gesture I was making) and the side is the Hypothesis (what the computer guessed). These numbers were found by checking each frame of the above GIF for correctness. While the computer is not entirely accurate, it _does_ do better than simply guessing!
 
 |              | Palm | Rock n' Roll | Fist | Thumbs Up |
 |--------------|------|--------------|------|-----------|
