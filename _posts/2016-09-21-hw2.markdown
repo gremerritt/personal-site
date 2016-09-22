@@ -19,15 +19,18 @@ Take an image of an object which you wish to track in a video. Then perform temp
 I chose to track a tennis ball in my video. As a guide, I used the sample code on the `opencv` site about template matching ([here](http://docs.opencv.org/2.4/doc/tutorials/imgproc/histograms/template_matching/template_matching.html)).
 
 First, I took a picture of the tennis ball to use as my template:
-![template.jpg](../../../../_images/cs585/hw2/template.png)
+
+![template.jpg](../../../../_images/cs585/hw2/template.jpg)
 
 Below is a GIF of the object being tracked on my screen. Note that at the beginning of the recording the tennis ball is kept at a distance of about the same size as the template image. Under these conditions, the code does a good job of finding the object. However, as the image is brought further back so that it is smaller than the template, the code does not do a very good job tracking the object.
+
 ![template_matching.png](../../../../_images/cs585/hw2/template_matching.gif)
 
 The program actually does a pretty good job of handling different lighting conditions. My guess is that this is because the ball has a very vibrant green/yellow color, and thus is reasonably east to identify across a variety of different lights.
 
 The template matching code works by checking at each pixel value in the image where the template would be able to sit on top (i.e. all pixels except the bottom and right side of the image.) At each pixel, a value is generated which determines how good of a match the template would be at that location. This is done with the `matchTemplate()` function. Then, we check the resulting image to find out where the darkest spot is (or lightest, depending on the exact template matching method used) using the `minMaxLoc()` method. The resulting image looks like:
-![template_result.png](../../../../_images/cs585/hw2/template_matching.gif)
+
+![template_result.png](../../../../_images/cs585/hw2/template_result.png)
 
 Once we know the most likely place for the template object in the frame, we just draw a bounding box at that location.
 
@@ -50,3 +53,56 @@ In your report, create a confusion matrix (which will be discussed in class duri
   - Interesting and fun aspects of the graphics display
 
 #### Writeup
+I chose my goal to be that I could make one of four different hand gestures in front of a webcam, and the computer would display back the emoji for that hand gesture. The gestures that I chose were:
+  1. Palm ![palm.png](../../../../_images/cs585/hw2/palm.png)
+  2. Rock 'n Roll Horns ![rock.png](../../../../_images/cs585/hw2/rock.png)
+  3. Fist ![fist.png](../../../../_images/cs585/hw2/fist.png)
+  4. Thumbs Up ![thumb.png](../../../../_images/cs585/hw2/thumb.png)
+
+To do this, I basic methodology I used was background differencing. While reading the video stream, I would take the current frame and the previous frame, and pass it to my function `getHandSymbol()` which would tell me which hand gesture was being made.
+
+The first thing I did was difference the two frames. I converted the two frame to grayscale, then looped over all pixels to mark any pixel which was close to black (I chose threshold it at anything under a value of 70) as black, and everything else as white. During this process I also created a histogram of the vertical and horizontal intensities.
+{% highlight c++ %}
+vector<unsigned int> horz(prev.cols, 0);
+vector<unsigned int> vert(prev.rows, 0);
+// go over the frames and do the differencing, and create a histogram of the white pixels
+for (int i = 0; i < prev_gray.rows; i++){
+    for (int j = 0; j < prev_gray.cols; j++){
+        uchar sub = mySubAbs(curr_gray.at<uchar>(i, j), prev_gray.at<uchar>(i, j));
+        Vec3b pixel = (sub < 70) ? black : white;
+        dst.at<Vec3b>(i, j) = pixel;
+        horz[j] += (pixel == black) ? 0 : 1;
+        vert[i] += (pixel == black) ? 0 : 1;
+    }
+}
+{% endhighlight %}
+
+Using the histograms, I then determined where the object (hand) was in my image. To find the top edge of the object, I went through the vertical histogram, and as soon I found an intensity above some threshold (which I experimented with to find a good value), I would mark that as the top edge.
+{% highlight c++ %}
+for(int i = 0; i<prev.rows; i++) {
+  if (vert[i] >= vert_thresh) {
+    vert_strt = i;
+    break;
+  }
+}
+{% endhighlight %}
+Likewise, I started at the end of the histogram and looped backwards to find the bottom edge. I used the same method to find the left and right edges. These values gave me a bounding box for the subject of my frame. For help debugging, I also actually drew the bounding box onto the differenced frames so that I could display them:
+
+![background_difference.gif](../../../../_images/cs585/hw2/background_difference.gif)
+
+Next I looped over the pixels in bounding box, and if counted up the number of white pixels in the middle half of the top quarter of the bounding box. This was to help differentiate between the palm gesture and the rock n' roll gesture. I expected the frequency of white pixels to be lower in the rock n' roll gesture than in the palm gesture, since the middle two fingers should be hidden.
+
+Finally, I determined the ratio of the height of the bounding box to the width. If it was tall and skinny (a ratio > 2), then I call it a thumb. If the gesture has a bounding-box ratio of 1.2 or greater, then it would either be a palm or a rock n' roll. I checked the ratio of white pixels to the total number of pixels in the specific region outlined above, and using a threshold differentiate between the two gestures. Finally, if the gesture has a bounding-box ratio greater than 0.3 (which I used because I wanted to say that it was actually a box and not just a line) then it would be a fist.
+
+I then copied the corresponding emoji image onto the frame and displayed it! An example is below:
+
+![hand_gestures.gif](../../../../_images/cs585/hw2/hand_gestures.gif)
+
+Below is a Confusion Matrix where the top row is the Truth (what gesture I was making) and the side is the Hypothesis (what the computer guessed). These numbers were found my checking each frame of the above GIF for correctness. While the computer is not entirely accurate, it _does_ to better than simply guessing!
+
+|              | Palm | Rock n' Roll | Fist | Thumbs Up |
+|--------------|------|--------------|------|-----------|
+| Palm         |   16  |       9      |  2   |     2     |
+| Rock n' Roll |   0  |       12      |  17   |    1      |
+| Fist         |   2  |       9      |  25   |     3     |
+| Thumbs Up    |  6   |       3      |  0   |      4    |
