@@ -10,7 +10,7 @@ The goal of this programming assignment was to use various segmentation techniqu
 
 The first image set was a number of images from a fish tank. A sample image is:
 
-![aquarium.jpg](../../../../_images/cs585/hw3/aquarium.jpg)
+![aquarium.png](../../../../_images/cs585/hw3/aquarium.png)
 
 The first step that I took was to convert the image to grayscale, since that would make the segmentation easier. Instead of using the OpenCV function to do the conversion to grayscale, I did it manually, simply by taking the blue value of each pixel in the image. I did it this was because many of the fish were mostly blue, so I predicated that it would make the thresholding easier. Next, I did an adaptive threshold to take a first pass at segmenting the image. I then applied a function to zero-out all of the pixels outside of the actual fish tank (which I calculated manually).
 
@@ -20,7 +20,7 @@ Using this connected component algorithm (called `getObjects()` in my program) I
 
 For my result, I simply said that any object that was over some size (1000 pixels) would be fish type A, and anything smaller would be fish type B. It wasn't useful to use circularity in this case, because the objects that were found were very consistently shaped.
 
-My results from these experiments were just okay. Most of the small blue fish near the bottom of the frames are captured correctly. The two larger fish near the middle of the frame are only identified in a handful of the images from the set. The fish near the top of the frame were very difficult to distinguish from the background, and are counted unreliably. Some stills from my results are below:
+My results from these experiments were just okay. Most of the small blue fish near the bottom of the frames are captured correctly. The two larger fish near the middle of the frame are only identified in a handful of the images from the set. The fish near the top of the frame were very difficult to distinguish from the background, and are counted unreliably. There are also a lot of false positives in the image. Since many of the fish are nearly the same color and texture as the background, it was very difficult to segment them correctly. Some stills from my results are below:
 
 ![aquarium_rslt1.png](../../../../_images/cs585/hw3/aquarium_rslt1.png)
 
@@ -29,3 +29,49 @@ My results from these experiments were just okay. Most of the small blue fish ne
 ![aquarium_rslt3.png](../../../../_images/cs585/hw3/aquarium_rslt3.png)
 
 ![aquarium_rslt4.png](../../../../_images/cs585/hw3/aquarium_rslt4.png)
+
+### Image Set 2 - Bats
+
+The bats image set was fun to work with, and compared to the aquarium scenes, easier to get good results. A sample frame is below:
+
+![bat.png](../../../../_images/cs585/hw3/bat.png)
+
+I chose to use the grayscale image set, though running the same algorithm on the false-color image set actually provided largely the same results. First I converted the image to grayscale, then did a simple absolute threshold on the image to get a binary image. Since there was a gradient of gray values in the images my simple threshold cut off a small portion of the images at the bottom of the frames, which can be seen in my results below. I then found collected the objects in the image using the same connected component algorithm outlined above, filtering out any components with an area greater than 20000 pixels or smaller than 60 pixels (to get rid of some noise).
+
+I then calculated the circularity of each object by calculating <sup>E<sub>min</sub></sup> / <sub>E<sub>max</sub></sub>. Using the circularity values of the bats, I set a threshold circularity value of 0.14. Any object greater than this value I labeled as having flapping wings, and any object with a lower value was labelled as having extended wings. Finally, I put labels on the original image, and output another image showing the bat objects with random colors.
+
+I think that my results for this image set were quite good. The white bats on the dark background were easy to threshold to get a good binary image, and the difference in circularity for bats with extended vs. flapping wings made it easy to label them. Below a few gifs of my results:
+
+![bats_objects.png](../../../../_images/cs585/hw3/bats_objects.png)
+
+![bats_rslt.png](../../../../_images/cs585/hw3/bats_rslt.png)
+
+### Image Set 3 - Cells
+
+Of all of the image sets, this one was most rewarding to work with. The cells were fairly dark, and very nearly the same color as their background. I chose to work with the normalized image set, however since I used adaptive thresholding the algorithm worked just as well on the raw image. A sample image from the set is shown below:
+
+![cell.jpg](../../../../_images/cs585/hw3/cell.jpg)
+
+First I converted the image to a true grayscale, then did a gaussian blur on the image. The blurring was done because the background was actually fairly noisey, and I wanted it to have a flatter for consistent value. Next, I performed an adaptive threshold on the cells to get their outlines. Next, I collected the objects in the image using the same connected component algorithm outlined above.
+
+Once I had a binary image of the collected objects, I blurred the image again to combine some of the smaller components which should have belonged to the same object. I performed thresholding again to get a binary image from my blurred image. I then collected the objects in the image again, and these were the objects I used as my output. I calculated the objects' boundaries, and displayed them on top of the original image. I also display the binary image of objects.
+
+My results for this image set were better than I had expected my I first started working with the images. In most cases I'm able to segment the cells correctly, though I do sometimes combine cells into one object when they should actually to two separate cells. My results are below:
+
+![cell_objects.png](../../../../_images/cs585/hw3/cell_objects.png)
+
+![cell_rslt.png](../../../../_images/cs585/hw3/cell_rslt.png)
+
+### Image Set 4 - Piano Player
+
+I chose to actually analyze all four of the provided image sets. This image set was tough to work with, and I didn't have much luck actually segmenting out just the hands of the piano player. Instead, I chose to just attempt to track the hands as they moved over the piano. A sample image from the set it below:
+
+![piano.png](../../../../_images/cs585/hw3/piano.png)
+
+First I converted the image to grayscale and performed a simple absolute threshold with an attempt to segment out _just_ the keys of the piano. I then also went through and marked pixels as black if the pixel in the source image had a red-channel value in a certain range; this was to remove the pixels that were part of the piano body (which were also very bright). I created a histogram of values and using the histogram marked a bounding box around the piano keys.
+
+I then used the vertical histogram values just in the range of the piano keys to find the region on the keys that was darkest. To do this I found the first location in the histogram that was over some threshold _and_ which was followed (or preceded) by some number (I used 15) of pixels that were also over the threshold.
+
+Using this subsection of the piano key bounding box, I drew a circle around the dark area. While this doesn't actually segment out just the hands, it does do a good job of following the hands as they move up and down the piano keys!
+
+![piano.gif](../../../../_images/cs585/hw3/piano.gif)
