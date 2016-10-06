@@ -34,7 +34,7 @@ My results from these experiments were just okay. Most of the small blue fish ne
 
 The bats image set was fun to work with, and compared to the aquarium scenes, easier to get good results. A sample frame is below:
 
-![bat.png](../../../../_images/cs585/hw3/bat.png)
+![bat.ppm](../../../../_images/cs585/hw3/bat.ppm)
 
 I chose to use the grayscale image set, though running the same algorithm on the false-color image set actually provided largely the same results. First I converted the image to grayscale, then did a simple absolute threshold on the image to get a binary image. Since there was a gradient of gray values in the images my simple threshold cut off a small portion of the images at the bottom of the frames, which can be seen in my results below. I then found collected the objects in the image using the same connected component algorithm outlined above, filtering out any components with an area greater than 20000 pixels or smaller than 60 pixels (to get rid of some noise).
 
@@ -42,9 +42,9 @@ I then calculated the circularity of each object by calculating <sup>E<sub>min</
 
 I think that my results for this image set were quite good. The white bats on the dark background were easy to threshold to get a good binary image, and the difference in circularity for bats with extended vs. flapping wings made it easy to label them. Below a few gifs of my results:
 
-![bats_objects.png](../../../../_images/cs585/hw3/bats_objects.png)
+![bats_objects.gif](../../../../_images/cs585/hw3/bats_objects.gif)
 
-![bats_rslt.png](../../../../_images/cs585/hw3/bats_rslt.png)
+![bats_rslt.gif](../../../../_images/cs585/hw3/bats_rslt.gif)
 
 ### Image Set 3 - Cells
 
@@ -58,9 +58,9 @@ Once I had a binary image of the collected objects, I blurred the image again to
 
 My results for this image set were better than I had expected my I first started working with the images. In most cases I'm able to segment the cells correctly, though I do sometimes combine cells into one object when they should actually to two separate cells. My results are below:
 
-![cell_objects.png](../../../../_images/cs585/hw3/cell_objects.png)
+![cell_objects.gif](../../../../_images/cs585/hw3/cell_objects.gif)
 
-![cell_rslt.png](../../../../_images/cs585/hw3/cell_rslt.png)
+![cell_rslt.gif](../../../../_images/cs585/hw3/cell_rslt.gif)
 
 ### Image Set 4 - Piano Player
 
