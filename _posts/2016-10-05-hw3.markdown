@@ -1,0 +1,31 @@
+---
+layout: post
+title:  "Homework 3"
+date:   2016-10-05 10:36:25 -0400
+categories: cs585
+---
+The goal of this programming assignment was to use various segmentation techniques on a few different image sets.
+
+### Image Set 1 - Aquarium
+
+The first image set was a number of images from a fish tank. A sample image is:
+
+![aquarium.jpg](../../../../_images/cs585/hw3/aquarium.jpg)
+
+The first step that I took was to convert the image to grayscale, since that would make the segmentation easier. Instead of using the OpenCV function to do the conversion to grayscale, I did it manually, simply by taking the blue value of each pixel in the image. I did it this was because many of the fish were mostly blue, so I predicated that it would make the thresholding easier. Next, I did an adaptive threshold to take a first pass at segmenting the image. I then applied a function to zero-out all of the pixels outside of the actual fish tank (which I calculated manually).
+
+The next step I took was to find all of the the connected components. I implemented my own stack-based connected component algorithm. The function I created took as an input the binary image to be analyzed, the N-type to be used for finding the connected components (N4 or N8, where the latter includes pixels to the corners as neighbors), as well as a lower threshold and an upper threshold. The thresholds are the for the number of pixels in connected components. For example, if a connected component had an area of 1000 pixels, it would only be included if the lower threshold were less than 1000 and the upper threshold were greater than 1000. This was useful for filtering out very large or very small objects. The function returned a vector of vectors of points. Each vector of points was a different object in the image.
+
+Using this connected component algorithm (called `getObjects()` in my program) I found all of the objects, and filtered out anything with an area over 3000. This essentially removed all of the background, since the background was found as mostly one large object. Next, I blurred the resulting image and did another round of absolute thresholding. The blurring was done because the previous result included lots of medium sized very close together. I knew that the fish would be somewhat far apart, so I wanted to remove the clustered small objects. After the blurring, I performed another threshold to get another binary image. Finally, I did another pass of finding the connected components, again removing any large objects. Finally, I implemented a function called `getBoundary()` to find the boundaries of each of the objects in the image.
+
+For my result, I simply said that any object that was over some size (1000 pixels) would be fish type A, and anything smaller would be fish type B. It wasn't useful to use circularity in this case, because the objects that were found were very consistently shaped.
+
+My results from these experiments were just okay. Most of the small blue fish near the bottom of the frames are captured correctly. The two larger fish near the middle of the frame are only identified in a handful of the images from the set. The fish near the top of the frame were very difficult to distinguish from the background, and are counted unreliably. Some stills from my results are below:
+
+![aquarium_rslt1.png](../../../../_images/cs585/hw3/aquarium_rslt1.png)
+
+![aquarium_rslt2.png](../../../../_images/cs585/hw3/aquarium_rslt2.png)
+
+![aquarium_rslt3.png](../../../../_images/cs585/hw3/aquarium_rslt3.png)
+
+![aquarium_rslt4.png](../../../../_images/cs585/hw3/aquarium_rslt4.png)
