@@ -34,7 +34,7 @@ My results from these experiments were just okay. Most of the small blue fish ne
 
 The bats image set was fun to work with, and compared to the aquarium scenes, easier to get good results. A sample frame is below:
 
-![bat.ppm](../../../../_images/cs585/hw3/bat.ppm)
+![bat.png](../../../../_images/cs585/hw3/bat.png)
 
 I chose to use the grayscale image set, though running the same algorithm on the false-color image set actually provided largely the same results. First I converted the image to grayscale, then did a simple absolute threshold on the image to get a binary image. Since there was a gradient of gray values in the images my simple threshold cut off a small portion of the images at the bottom of the frames, which can be seen in my results below. I then found collected the objects in the image using the same connected component algorithm outlined above, filtering out any components with an area greater than 20000 pixels or smaller than 60 pixels (to get rid of some noise).
 
