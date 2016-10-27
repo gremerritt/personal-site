@@ -1,0 +1,45 @@
+---
+layout: post
+title:  "Homework 4"
+date:   2016-10-26 13:20:10 -0400
+categories: cs585
+---
+
+### Goals
+
+The goal of this assignment was to design and implement algorithms that can segment and track moving objects in a video. We were given a video of eels swimming in a tank, and our goal was to be able to scan the video and determine the segment the eels such that we could determine where in the video the eels appear.
+
+In particular, the goals were:
+  1. Find the boundary box of the two tanks. Note that this boundary box should be determined such that your code can run with the location of the camera moved.
+  2. Automatically find the portions of the video with animal action.
+  3. Segment the eels and crabs from the background using the techniques you have already learned.
+  4. Track the movement of the eels and the crabs i.e., identify the same part of eels (its tail, head and center of the body) and the center of mass of the crabs from frame to frame.
+  5. Analyze the movement behavior of eels. Eels make wave-like movements with their bodies. Design an algorithm that describes this movement, in particular, the frequency of undulations.
+  6. Your final output should show the eels and crabs being segmented and tracked in the original video by showing the parts of their body being tracked. In addition to that, you should save the times when they are in the open feeding area (with white background) and the estimated undulation frequency in a CSV file.
+  7. Your code should be well-commented.
+
+### Approach
+
+To process the video, I simply read each frame of the video in a loop. On each frame of the video, I would call my `process_frame()` function. In order to get a good segmentation of the eels, I first found a frame of the video which contained NO eels (i.e. it looked in the video like it was just an empty tank.) This frame, which I called a 'mask', is defined by the `REFERENCE_MIN` and `REFERENCE_SEC` variables. I first go the this time in the video, and call my processing function on that frame. Since this is the first time the function is called, it handles the frame differently than it will later.
+
+After converting the image to grayscale, it first finds the bounding box of the tank. To do this I did a fairly straightforward thresholding, and determined the bounding box based on a histogram of the white pixels. The bounding box is only found during this initial processing, and this same bounding box is used on future frames.
+
+The processing of the image is also fairly simple. I first do an adaptive threshold to pick out the object in the bounding box. I then blur that image, then do another thresholding operation on the image - that's it! During the first call of this function (the one that doesn't have any eels), we set the `mask` Mat to our processed frame.
+
+Then, I set the video back to the whichever starting place is defined in the program (determined by the `START_MIN` and `START_SEC` variables.) I used these so I could go straight to the interesting segments of the video and they could easily be set to the beginning of the video. Each time the frame is processed, the same processing outlined above is done to the frame (using the same bounding box found in the initial call.) The `mask` is then essentially XOR'ed with the processed frame (with my `subtract()` function):
+
+{% highlight c++ %}
+for(int i = upper_left.y; i < lower_right.y; i++) {
+  for(int j = upper_left.x; j < lower_right.x; j++) {
+    uchar val = (src.at<uchar>(i,j) == 255 && mask.at<uchar>(i,j) == 255) ? 0 : src.at<uchar>(i,j);
+    src.at<uchar>(i,j) = val;
+  }
+}
+{% endhighlight %}
+
+Using this method, I'm able to pick out differences between the masking frame and the current frame. With this resulting frame, I'm able to pick out the eels! To find them, I used my stack-based connected component algorithm, which I outlined in the last assignment. Since the eels are relatively big, and the errors in my masking method are small, I can simply ignore small objects picked out by the connected component algorithm, and be fairly sure that the eels will be picked up correctly. I also calculate the boundary of the object, which I use just for display purposes.
+
+Next, I determine the skeleton of each of these objects that I picked out. I used the skeleton algorithm we discussed in class, where a pixel belongs to the skeleton if its minimum distance to the background is greater than or equal to the those of it's neighbors. I then pick out 3 points on this skeleton which are (or are attempted to be) evenly spaced - this is done in my `getPointsOnSkeleton()` function. If the object is skinny and tall, I sort the skeleton points vertically, and if the 
+
+
+![eels.gif](../../../../_images/cs585/hw4/eels.gif)
