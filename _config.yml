@@ -23,7 +23,7 @@ url: "http://gregmerritt.xyz" # the base hostname & protocol for your site
 github: "https://github.com/gremerritt"
 linkedin: "https://linkedin.com/in/gremerritt"
 twitter: "https://twitter.com/gremerritt"
-resume: "{{ site.baseurl }}/_images/greg_merritt_resume.pdf"
+resume: "/_images/greg_merritt_resume.pdf"
 
 # Build settings
 markdown: kramdown
