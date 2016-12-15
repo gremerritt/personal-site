@@ -4,7 +4,7 @@ title: About
 permalink: /about/
 ---
 
-I am currently a graduate student at Boston University, where I'm working on completing a Master's Degree in Computer Engineering. I am especially interested in Machine Learning techniques and learning more about how they can be applied in the creation of cutting-edge technologies.
+I am currently a graduate student at Boston University, where I'm working on completing a Master's Degree in Computer Engineering. I love building things with code, and experimenting with new technologies. When I'm not doing those things, I'm probably working on bikes or playing board games.
 
 Some interesting projects that I've worked on include:
 
@@ -12,4 +12,4 @@ Some interesting projects that I've worked on include:
   - <span style="font-size: smaller;">Solving the [Laplace Equation](https://en.wikipedia.org/wiki/Laplace%27s_equation), and in particular the [Heat Equation](https://en.wikipedia.org/wiki/Heat_equation) on an [Icosahedron](https://en.wikipedia.org/wiki/Icosahedron). [(Link)]({{site.github}}/icosahedral-lattice)</span>
   - <span style="font-size: smaller;">A Dropbox integration for iTunes on OSX. Written in Ruby, the app will dynamically download music located in a user's Dropbox onto the local machine. This way all music can be kept in the cloud, but the user can still use iTunes. [(Link)]({{site.github}}/henchman)</span>
 
-Feel free to reach out if you'd like to get in touch with me!
+Shoot me an email if you'd like to learn more!
