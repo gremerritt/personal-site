@@ -43,6 +43,16 @@ a:hover {
 	color: $main;
 	text-decoration: underline;
 }
+a.header,
+a.header:visited {
+	color: $tabcolor;
+	text-decoration: underline;
+	font-weight: bold;
+}
+// a.header:hover {
+// 	color: $main;
+// 	text-decoration: underline;
+// }
 header {
 	background: $header;
 	background-image: url($me);
@@ -75,7 +85,7 @@ aside {
 	position: fixed;
 	top: 0;
 	left: 0;
-	background-image: url($edges);;
+	background-image: url($edges);
 	width: 100%;
 	z-index: 2;
 	border-bottom: 0px solid lighten($light, 30%);
@@ -103,7 +113,10 @@ aside {
 					&:active {
 						// background-image: url("../_images/stardust.png");
 						text-decoration: underline;
-						color: $main;
+						background-image: url($edges);
+						color: $tabcolor;
+						-webkit-filter: invert(1);
+   				  filter: invert(1);
 					}
 				}
 			}
