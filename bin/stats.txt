@@ -1,0 +1,3 @@
+Yearly: 72.8
+Weekly: 33.2
+Miles/Day: 2.6

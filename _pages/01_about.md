@@ -4,7 +4,7 @@ title: About
 permalink: /about/
 ---
 
-I am currently a graduate student at Boston University, where I'm working on completing a Master's Degree in Computer Engineering. I love building things with code, and experimenting with new technologies. When I'm not doing those things, I'm probably working on bikes or playing board games.
+I am currently a Software Engineer at [Insight Squared](https://www.insightsquared.com/)  and also a graduate student at Boston University, where I'm working on completing a Master's Degree in Computer Engineering. I love building things with code, and experimenting with new technologies. When I'm not doing those things, I'm probably working on bikes or playing board games.
 
 Some interesting projects that I've worked on include:
 
@@ -12,4 +12,19 @@ Some interesting projects that I've worked on include:
   - <span style="font-size: smaller;">Solving the [Laplace Equation](https://en.wikipedia.org/wiki/Laplace%27s_equation), and in particular the [Heat Equation](https://en.wikipedia.org/wiki/Heat_equation) on an [Icosahedron](https://en.wikipedia.org/wiki/Icosahedron). [(Link)]({{site.github}}/icosahedral-lattice)</span>
   - <span style="font-size: smaller;">A Dropbox integration for iTunes on OSX. Written in Ruby, the app will dynamically download music located in a user's Dropbox onto the local machine. This way all music can be kept in the cloud, but the user can still use iTunes. [(Link)]({{site.github}}/henchman)</span>
 
+I also like to run. Here are some of my milage stats:
+<pre id="contents"></pre>
+
 Shoot me an email if you'd like to learn more!
+
+<script type="text/javascript">
+function populatePre(url) {
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        document.getElementById('contents').textContent = this.responseText;
+    };
+    xhr.open('GET', url);
+    xhr.send();
+}
+populatePre('/bin/stats.txt');
+</script>
